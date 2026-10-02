@@ -7,6 +7,7 @@
 #    cli           build and start the interactive simulator -> wiper_cli
 #    validate-xml  check WiperControl_SWC.arxml for well-formedness
 #    check         run + validate-xml (full host-side validation)
+#    matlab-migrate run the ARXML -> Simulink migration script via MATLAB
 #    clean         remove all build artefacts
 #
 #  Note on -Irte_mock:
@@ -31,7 +32,7 @@ TEST_BIN := wiper_sim
 CLI_SRC  := cli_sim.c
 CLI_BIN  := wiper_cli
 
-.PHONY: all run cli validate-xml check clean
+.PHONY: all run cli validate-xml check matlab-migrate clean
 
 all: $(TEST_BIN)
 
@@ -65,5 +66,21 @@ validate-xml:
 check: run validate-xml
 	@echo "[check] host-side validation complete"
 
+# Import the ARXML into a Simulink model and export AUTOSAR C code.
+# Requires MATLAB with the AUTOSAR Blockset. Override MATLAB with
+#   make matlab-migrate MATLAB=/opt/matlab/bin/matlab
+MATLAB ?= matlab
+MIGRATE_ARGS ?=
+
+matlab-migrate:
+	@command -v $(MATLAB) >/dev/null 2>&1 || { \
+		echo "[matlab-migrate] ERROR: '$(MATLAB)' not found on PATH."; \
+		echo "                  Install MATLAB with the AUTOSAR Blockset, or set"; \
+		echo "                  MATLAB=/path/to/matlab and re-run."; \
+		exit 1; }
+	@echo "[matlab-migrate] running migrate_to_autosar via MATLAB -batch"
+	$(MATLAB) -batch "cd('$(CURDIR)'); migrate_to_autosar $(MIGRATE_ARGS)"
+
 clean:
 	rm -f $(TEST_BIN) $(CLI_BIN) *.o
+	rm -rf slprj codegen
