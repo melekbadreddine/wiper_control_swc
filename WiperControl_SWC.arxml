@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0">
+
+  <ADMINISTRATIVE-DATA-DESCRIPTION>
+    <LONG-NAME>Automatic Wiper Control System - AUTOSAR Classic 4.4 Application SWC</LONG-NAME>
+  </ADMINISTRATIVE-DATA-DESCRIPTION>
+
+  <AR-PACKAGES>
+    <AR-PACKAGE>
+      <SHORT-NAME>WiperControlSwc</SHORT-NAME>
+      <LONG-NAME>Wiper Control Software Component</LONG-NAME>
+      <ELEMENTS>
+
+        <!-- ============================================================
+             Application Software Component Type
+             ============================================================ -->
+        <APPLICATION-SW-COMPONENT-TYPE>
+          <SHORT-NAME>WiperControl_SWC</SHORT-NAME>
+          <LONG-NAME>Automatic Wiper Control Application Software Component</LONG-NAME>
+
+          <INTERNAL-BEHAVIORS>
+            <INTERNAL-BEHAVIOR>
+              <SHORT-NAME>InternalBehavior_WiperControl_SWC</SHORT-NAME>
+
+              <!-- 10 ms periodic timing event -->
+              <TIMING-EVENTS>
+                <TIMING-EVENT>
+                  <SHORT-NAME>TE_WiperControl_10ms</SHORT-NAME>
+                  <START-ON-EVENT-REF DEST="RUNNABLE-ENTITY">/WiperControlSwc/WiperControl_SWC/InternalBehavior_WiperControl_SWC/Runnable_WiperControl_10ms</START-ON-EVENT-REF>
+                  <PERIOD>0.01</PERIOD>
+                </TIMING-EVENT>
+              </TIMING-EVENTS>
+
+              <RUNNABLES>
+                <RUNNABLE-ENTITY>
+                  <SHORT-NAME>Runnable_WiperControl_10ms</SHORT-NAME>
+                  <MINIMUM-START-INTERVAL>0.0</MINIMUM-START-INTERVAL>
+                  <CAN-BE-INVOKED-CONCURRENTLY>false</CAN-BE-INVOKED-CONCURRENTLY>
+                  <SUPPORTS-MULTIPLE-INSTANTIATION>false</SUPPORTS-MULTIPLE-INSTANTIATION>
+
+                  <DATA-RECEIVE-POINT-BY-VALUE-POINTS>
+                    <DATA-RECEIVE-POINT-BY-VALUE>
+                      <SHORT-NAME>DRP_StalkPosition</SHORT-NAME>
+                      <DATA-DESTINATION-REF DEST="VARIABLE-DATA-PROTOTYPE">/WiperControlSwc/WiperControl_SWC/StalkPosition</DATA-DESTINATION-REF>
+                    </DATA-RECEIVE-POINT-BY-VALUE>
+                    <DATA-RECEIVE-POINT-BY-VALUE>
+                      <SHORT-NAME>DRP_RainIntensity</SHORT-NAME>
+                      <DATA-DESTINATION-REF DEST="VARIABLE-DATA-PROTOTYPE">/WiperControlSwc/WiperControl_SWC/RainIntensity</DATA-DESTINATION-REF>
+                    </DATA-RECEIVE-POINT-BY-VALUE>
+                  </DATA-RECEIVE-POINT-BY-VALUE-POINTS>
+
+                  <DATA-SEND-POINTS>
+                    <DATA-SEND-POINT>
+                      <SHORT-NAME>DSP_WiperSpeedCmd</SHORT-NAME>
+                      <DATA-DESTINATION-REF DEST="VARIABLE-DATA-PROTOTYPE">/WiperControlSwc/WiperControl_SWC/WiperSpeedCmd</DATA-DESTINATION-REF>
+                    </DATA-SEND-POINT>
+                  </DATA-SEND-POINTS>
+
+                </RUNNABLE-ENTITY>
+              </RUNNABLES>
+
+            </INTERNAL-BEHAVIOR>
+          </INTERNAL-BEHAVIORS>
+
+          <!-- ============================================================
+               Data type mappings (uint8 for all three signals)
+               ============================================================ -->
+          <DATA-TYPE-MAPPINGS>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>StalkPosition</SHORT-NAME>
+              <BASE-TYPE-REF DEST="SW-BASE-TYPE">/Platform/uint8</BASE-TYPE-REF>
+            </VARIABLE-DATA-PROTOTYPE>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>RainIntensity</SHORT-NAME>
+              <BASE-TYPE-REF DEST="SW-BASE-TYPE">/Platform/uint8</BASE-TYPE-REF>
+            </VARIABLE-DATA-PROTOTYPE>
+            <VARIABLE-DATA-PROTOTYPE>
+              <SHORT-NAME>WiperSpeedCmd</SHORT-NAME>
+              <BASE-TYPE-REF DEST="SW-BASE-TYPE">/Platform/uint8</BASE-TYPE-REF>
+            </VARIABLE-DATA-PROTOTYPE>
+          </DATA-TYPE-MAPPINGS>
+
+          <!-- ============================================================
+               Ports
+               ============================================================ -->
+          <PORTS>
+
+            <!-- Receiver: stalk position -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>RPort_StalkPosition</SHORT-NAME>
+              <DATA-RECEIVER-POINT-BY-ARGUMENTS-PROTOTYPE>
+                <SHORT-NAME>DRP_StalkPosition</SHORT-NAME>
+                <DATA-ELEMENT-REF DEST="VARIABLE-DATA-PROTOTYPE">/WiperControlSwc/WiperControl_SWC/StalkPosition</DATA-ELEMENT-REF>
+                <DATA-CONSISTENCY>EXPLICIT</DATA-CONSISTENCY>
+              </DATA-RECEIVER-POINT-BY-ARGUMENTS-PROTOTYPE>
+            </R-PORT-PROTOTYPE>
+
+            <!-- Receiver: rain intensity -->
+            <R-PORT-PROTOTYPE>
+              <SHORT-NAME>RPort_RainIntensity</SHORT-NAME>
+              <DATA-RECEIVER-POINT-BY-ARGUMENTS-PROTOTYPE>
+                <SHORT-NAME>DRP_RainIntensity</SHORT-NAME>
+                <DATA-ELEMENT-REF DEST="VARIABLE-DATA-PROTOTYPE">/WiperControlSwc/WiperControl_SWC/RainIntensity</DATA-ELEMENT-REF>
+                <DATA-CONSISTENCY>EXPLICIT</DATA-CONSISTENCY>
+              </DATA-RECEIVER-POINT-BY-ARGUMENTS-PROTOTYPE>
+            </R-PORT-PROTOTYPE>
+
+            <!-- Sender: wiper speed command -->
+            <P-PORT-PROTOTYPE>
+              <SHORT-NAME>PPort_WiperSpeedCmd</SHORT-NAME>
+              <DATA-SENDER-POINT-BY-ARGUMENTS-PROTOTYPE>
+                <SHORT-NAME>DSP_WiperSpeedCmd</SHORT-NAME>
+                <DATA-ELEMENT-REF DEST="VARIABLE-DATA-PROTOTYPE">/WiperControlSwc/WiperControl_SWC/WiperSpeedCmd</DATA-ELEMENT-REF>
+                <DATA-CONSISTENCY>EXPLICIT</DATA-CONSISTENCY>
+              </DATA-SENDER-POINT-BY-ARGUMENTS-PROTOTYPE>
+            </P-PORT-PROTOTYPE>
+
+          </PORTS>
+        </APPLICATION-SW-COMPONENT-TYPE>
+
+      </ELEMENTS>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+
+</AUTOSAR>
