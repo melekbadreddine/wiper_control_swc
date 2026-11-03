@@ -10,5 +10,8 @@ repository.workspace = true
 [dependencies]
 autosar-rte = { path = "../autosar-rte" }
 
+[dev-dependencies]
+proptest = "1"
+
 [lints]
 workspace = true

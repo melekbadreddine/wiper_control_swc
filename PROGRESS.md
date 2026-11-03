@@ -5,9 +5,9 @@ milestone. Resume work from the first unchecked box.
 
 | ✅ | Milestone | Deliverables | Tag | Notes |
 |---|-----------|--------------|-----|-------|
-| ☐ | M0 Bootstrap | git, workspace skeleton, toolchain pin, lints, configs, Makefile, AGENTS/PROGRESS/README/LICENSE | `m0` | |
-| ☐ | M1 Requirements & safety | requirements.md, HARA-lite, Classic vs Adaptive, ADRs, mdBook skeleton | `m1` | |
-| ☐ | M2 AUTOSAR RTE & interfaces | autosar-rte crate + tests, port/interface defs, DBC | `m2` | |
+| ✅ | M0 Bootstrap | git, workspace skeleton, toolchain pin, lints, configs, Makefile, AGENTS/PROGRESS/README/LICENSE | `m0` | cf35cee |
+| ✅ | M1 Requirements & safety | requirements.md, HARA-lite, Classic vs Adaptive, ADRs, mdBook skeleton | `m1` | 4e55254 (mdbook 0.5.4 build verified) |
+| ✅ | M2 AUTOSAR RTE & interfaces | autosar-rte crate + tests, port/interface defs, DBC | `m2` | 647be4e (8 tests, clippy -D warnings green) |
 | ☐ | M3 Wiper SWC logic | FSM, intermittent/park/diag logic, unit+property tests, coverage ≥90 % gate | `m3` | |
 | ☐ | M4 BSW sim + plant | bsw-sim (tasks/COM/IO/DEM), plant-sim RK4, equations doc, plant tests | `m4` | |
 | ☐ | M5 Closed loop + scenarios | scenario-runner CLI, scenarios, fault injection, CSV/MCAP, golden tests | `m5` | |

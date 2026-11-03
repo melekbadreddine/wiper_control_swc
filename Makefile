@@ -36,11 +36,9 @@ test: ## Run all tests
 check: fmt-check lint test ## Fast local gate: fmt + clippy + tests
 
 .PHONY: coverage
-coverage: ## Generate coverage report (requires cargo-llvm-cov) with 90% gate on wiper-swc
-	$(CARGO) llvm-cov --no-fail-fast --html --output-dir report \
-		--fail-thresholds 90 \
-		-p wiper-swc || true
-	$(CARGO) llvm-cov --no-fail-fast --summary-only -p wiper-swc -p autosar-rte
+coverage: ## Generate coverage report (cargo-llvm-cov), 90% line gate on wiper-swc
+	$(CARGO) llvm-cov --no-fail-fast --summary-only -p wiper-swc --fail-under-lines 90
+	$(CARGO) llvm-cov --no-fail-fast --summary-only -p autosar-rte --fail-under-lines 90
 
 .PHONY: arxml
 arxml: ## Generate + validate AUTOSAR ARXML (arxml_gen CLI)

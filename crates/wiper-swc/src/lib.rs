@@ -1,21 +1,37 @@
 //! Windshield wiper control **software component** (AUTOSAR Classic conventions).
 //!
 //! Pure application logic in Rust: stalk input handling, wiper state machine
-//! (OFF / INT / LOW / HIGH / wash sequence), intermittent timing with rain-sensor
-//! auto mode and vehicle-speed dependent pause, park-position management, and
-//! diagnostics (stall detection, park-switch plausibility, voltage supervision).
+//! (OFF / INT / LOW / HIGH / wash), intermittent timing with rain-sensor auto mode
+//! and speed-dependent pause, park discipline, and diagnostics (stall detection
+//! with retry/latch, park-switch plausibility, voltage supervision, pump
+//! over-run protection).
 //!
 //! Design rules (see `AGENTS.md`):
 //! - `no_std`, no heap, `forbid(unsafe_code)`, no `unwrap/expect/panic/indexing`.
-//! - Fixed-point arithmetic where floats are unnecessary (documented per site).
-//! - AUTOSAR-style runnable naming: `Wiper_Init`, `Wiper_Run10ms`, `Wiper_Run100ms`,
-//!   `Wiper_OnStalkChange`.
-//! - Knows nothing about ROS, CAN, files, or the host OS.
+//! - Fixed-point arithmetic; nothing depends on ROS, CAN, files, or the OS.
+//! - AUTOSAR-style runnables: `Wiper_Init`, `Wiper_Run10ms`, `Wiper_Run100ms`,
+//!   `Wiper_OnStalkChange` (module docs in `swc.rs`).
 //!
-//! The full state machine is implemented in milestone M3 (see `PROGRESS.md`).
+//! Verify with: module unit tests, property tests (`proptest`), and scenario
+//! integration in `scenario-runner` (milestone M5).
 
 #![no_std]
 #![forbid(unsafe_code)]
+
+// Tests in a `no_std` crate are still hosted binaries; the std test harness links
+// in as usual (this extern is never compiled into the release lib).
+#[cfg(test)]
+extern crate std;
+
+pub mod params;
+pub mod swc;
+pub mod types;
+
+pub use swc::WiperSwc;
+pub use types::{
+    DiagStatus, Dtc, Ignition, Inputs, MotorCommand, MotorSpeed, Outputs, StalkMode, WashPhase,
+    WiperFsm,
+};
 
 /// Fixed single-line scratch buffer for diagnostics text formatting without heap.
 pub struct DebugBuf {
