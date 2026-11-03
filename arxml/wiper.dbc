@@ -1,0 +1,66 @@
+VERSION ""
+
+NS_ :
+    CM_
+    BA_DEF_
+    BA_
+    VAL_
+    CAT_DEF_
+    CAT_
+    FILTER
+    BA_DEF_DEF_
+    EV_DATA_
+    ENVVAR_DATA_
+    SGTYPE_
+    SGTYPE_VAL_
+    BA_DEF_SGTYPE_
+    BA_SGTYPE_
+    SG_TYPE_
+    SG_MUL_VAL_
+    BA_DEF_
+    BA_DEF_REL_
+    BA_REL_
+    BA_DEF_DEF_REL_
+    BO_TX_BU_
+    BU_EV_REL_
+    FG_NEXT_
+    SIGNAL_GROUP_
+    SIG_VALTYPE_
+    VALTYPE_
+
+BS_:
+
+BU_: BodyCtrl RainSensor VehicleEcu AbsEcu WiperEcu ClusterDisplay
+
+BO_ 672 WiperStalkFrame: 2 BodyCtrl
+ SG_ StalkMode : 0|3@1+ (1,0) [0|7] "" WiperEcu, ClusterDisplay
+ SG_ WashButton : 3|1@1+ (1,0) [0|1] "" WiperEcu
+ SG_ Sensitivity : 4|2@1+ (1,0) [0|3] "" WiperEcu
+ SG_ AutoFlag : 6|1@1+ (1,0) [0|1] "" WiperEcu
+ SG_ StalkCounter : 15|1@1+ (1,0) [0|1] "count" WiperEcu
+
+BO_ 673 RainFrame: 2 RainSensor
+ SG_ RainPct : 0|8@1+ (0.392156862745,0) [0|100] "%" WiperEcu
+ SG_ RainValid : 8|1@1+ (1,0) [0|1] "" WiperEcu
+
+BO_ 674 VehicleSpeedFrame: 3 AbsEcu
+ SG_ SpeedKph : 0|13@1+ (0.05,0) [0|250] "km/h" WiperEcu, ClusterDisplay
+ SG_ SpeedValid : 15|1@1+ (1,0) [0|1] "" WiperEcu
+
+BO_ 675 WiperStatusFrame: 3 WiperEcu
+ SG_ WiperActive : 0|1@1+ (1,0) [0|1] "" ClusterDisplay
+ SG_ MotorSpeedMode : 1|2@1+ (1,0) [0|2] "" ClusterDisplay
+ SG_ PumpOn : 3|1@1+ (1,0) [0|1] "" ClusterDisplay
+ SG_ FsmState : 4|4@1+ (1,0) [0|15] "" ClusterDisplay
+ SG_ StallFault : 12|1@1+ (1,0) [0|1] "" ClusterDisplay
+ SG_ DelayCounter : 15|1@1+ (1,0) [0|1] "" ClusterDisplay
+
+CM_ BU_ BodyCtrl "Simulated body control module (stalk + wash button)";
+CM_ BU_ WiperEcu "The wiper control ECU (this project transforms CAN messages through the COM layer)";
+CM_ SG_ 672 StalkCounter "Alternating counter bit for alive supervision (REQ-WIP-015 timeout detection)";
+CM_ SG_ 672 StalkMode "0=OFF 1=INT 2=LOW 3=HIGH";
+CM_ SG_ 672 Sensitivity "1..4 (0 unused), maps to INT pause levels";
+CM_ SG_ 673 RainPct "Rain intensity percentage, encoded physical 0..100";
+VAL_ 672 StalkMode 0 "OFF" 1 "INT" 2 "LOW" 3 "HIGH" ;
+VAL_ 672 Sensitivity 1 "S1" 2 "S2" 3 "S3" 4 "S4" ;
+VAL_ 675 MotorSpeedMode 0 "OFF" 1 "LOW" 2 "HIGH" ;

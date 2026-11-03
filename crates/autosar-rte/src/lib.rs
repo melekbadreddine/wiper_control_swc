@@ -1,27 +1,26 @@
-//! Minimal AUTOSAR Classic **RTE-style** abstraction layer.
+//! Runtime Environment-style abstraction for the wiper system.
 //!
-//! This crate is part of the wiper-control-swc project. It provides the port and
-//! runnable abstractions that application software components (e.g. `wiper-swc`)
-//! use to stay independent of the actual communication stack: non-queued
-//! sender/receiver ports (last-is-best semantics like `Rte_Read_/Rte_Write_`),
-//! queued receiver ports, client/server calls, mode switching, and runnable
-//! definitions triggered by real-time events (e.g. a 10 ms cycle).
+//! # Communication semantics (AUTOSAR RTE mapping)
 //!
-//! Implemented in milestone M2 — see `PROGRESS.md`. Full behavioral tests live with
-//! the implementations that land there.
+//! | AUTOSAR concept | This crate |
+//! |---|---|
+//! | `Rte_Write_<port>_<elem>` | [`port::RteSender::Rte_Write`] |
+//! | `Rte_Read_<port>_<elem>` | [`port::RteReceiver::Rte_Read`] |
+//! | sender/receiver, non-queued (last-is-best) | [`port::NonQueuedPort`] + sender/receiver |
+//! | sender/receiver, queued (FIFO) | [`port::QueuedPort`] with const capacity |
+//! | data element invalidation | [`port::RteSender::Rte_Invalidate`] / [`port::ReadStatus::Invalid`] |
+//! | timing / send timeout ("alive supervision") | staleness [`port::RteReceiver`] + [`port::ReadStatus::Timeout`] |
+//! | client/server port | [`cs::ClientServerPort`] |
+//! | mode switch group (mode manager / user) | [`mode::ModeSwitchPort`] |
+//! | runnable entity | [`runnable::Runnable`] + [`runnable::Trigger`] |
+//!
+//! Determinism rules: all time flows in as an explicit `now_ms` argument; the crate
+//! never reads a clock. No heap allocation (`no_std`), no `unsafe`.
 
 #![no_std]
 #![forbid(unsafe_code)]
 
-/// Placeholder used by the M0 bootstrap gate only; replaced by real API surface.
-pub const RTE_MODEL_VERSION: &str = "AUTOSAR 4.x (mapping in crate docs, milestone M2)";
-
-#[cfg(test)]
-mod tests {
-    use super::RTE_MODEL_VERSION;
-
-    #[test]
-    fn crate_compiles_no_std() {
-        assert!(!RTE_MODEL_VERSION.is_empty());
-    }
-}
+pub mod cs;
+pub mod mode;
+pub mod port;
+pub mod runnable;
