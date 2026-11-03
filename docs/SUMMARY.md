@@ -1,0 +1,14 @@
+# Summary
+
+- [Overview](overview.md)
+- [Requirements](requirements.md)
+- [Safety analysis (HARA-lite)](hara.md)
+- [AUTOSAR Classic vs Adaptive](classic-vs-adaptive.md)
+- [Architecture Decision Records](adr/index.md)
+    - [ADR-0001 MIT license](adr/adr-0001-license.md)
+    - [ADR-0002 Toolchain & MSRV](adr/adr-0002-toolchain.md)
+    - [ADR-0003 std boundary](adr/adr-0003-std-boundary.md)
+    - [ADR-0004 ROS-independent crates and `ros` feature](adr/adr-0004-ros-feature.md)
+    - [ADR-0005 Fixed-step solver choice](adr/adr-0005-solver.md)
+- [Glossary](glossary.md)
+- [Limitations](limitations.md)
