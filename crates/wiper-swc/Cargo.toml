@@ -1,0 +1,14 @@
+[package]
+name = "wiper-swc"
+description = "AUTOSAR Classic-style windshield wiper control software component (pure application logic, no_std)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+
+[dependencies]
+autosar-rte = { path = "../autosar-rte" }
+
+[lints]
+workspace = true

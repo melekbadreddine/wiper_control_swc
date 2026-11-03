@@ -1,0 +1,20 @@
+[package]
+name = "scenario-runner"
+description = "Headless closed-loop scenario runner: loads TOML scenarios, runs ECU + plant in virtual time, logs CSV/MCAP, evaluates pass/fail"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "scenario-runner"
+path = "src/main.rs"
+
+[dependencies]
+bsw-sim = { path = "../bsw-sim" }
+plant-sim = { path = "../plant-sim" }
+wiper-swc = { path = "../wiper-swc" }
+
+[lints]
+workspace = true

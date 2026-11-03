@@ -1,0 +1,15 @@
+[package]
+name = "ros2-nodes"
+description = "ROS 2 adapter nodes (wiper ECU, plant, scenario player) around the ROS-independent wiper SWC; ROS stack lives behind the `ros` cargo feature"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+
+[features]
+default = []
+ros = []
+
+[lints]
+workspace = true

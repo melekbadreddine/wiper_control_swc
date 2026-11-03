@@ -1,0 +1,13 @@
+[package]
+name = "plant-sim"
+description = "Closed-loop physical plant models for the wiper system: DC motor + gear + linkage, windshield load, battery, rain, vehicle speed (fixed-step RK4)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

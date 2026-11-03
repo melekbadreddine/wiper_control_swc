@@ -1,0 +1,15 @@
+[package]
+name = "bsw-sim"
+description = "Simulated AUTOSAR Basic Software for host testing: OSEK-like cyclic scheduler, CAN-style COM with DBC mapping, IoHwAb, DEM/DET, NvM stub"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+
+[dependencies]
+wiper-swc = { path = "../wiper-swc" }
+autosar-rte = { path = "../autosar-rte" }
+
+[lints]
+workspace = true

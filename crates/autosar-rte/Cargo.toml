@@ -1,0 +1,13 @@
+[package]
+name = "autosar-rte"
+description = "Minimal AUTOSAR RTE-style abstraction layer (typed ports, runnables, mode switching) for the wiper control SWC"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+
+[dependencies]
+
+[lints]
+workspace = true

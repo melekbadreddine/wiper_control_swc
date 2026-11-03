@@ -1,0 +1,18 @@
+[package]
+name = "arxml-gen"
+description = "Generates AUTOSAR ARXML (4.x) for the wiper SWC from the Rust model and validates code-vs-ARXML consistency"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "arxml-gen"
+path = "src/main.rs"
+
+[dependencies]
+wiper-swc = { path = "../wiper-swc" }
+
+[lints]
+workspace = true

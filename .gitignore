@@ -1,0 +1,7 @@
+/target
+/docs/book
+/report
+**/*.rs.bk
+*.profraw
+coverage.info
+.DS_Store
