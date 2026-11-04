@@ -8,6 +8,7 @@ rust-version.workspace = true
 repository.workspace = true
 
 [dependencies]
+wiper-swc = { path = "../wiper-swc" }
 
 [lints]
 workspace = true

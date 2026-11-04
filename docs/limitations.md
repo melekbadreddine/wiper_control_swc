@@ -11,3 +11,13 @@ Kept honest and explicit — none of these are silently faked:
   consistency checking, not a full OEM ECU-Extract with all BSW modules configured.
 * ROS 2 integration simulates the vehicle network in-message; no CAN bus hardware.
 * MCU/PIL level, OTA, cybersecurity hardening, ComM/CanSM state machines: out of scope.
+* `bsw-sim` NvM is a RAM-mirrored job-queue stub (`nvm::NvmStub`): the mirror never
+  survives a power cycle; flash-backed persistence is not simulated.
+* The virtual CAN bus has no arbitration, bit timing, or transport protocols:
+  it stores the latest frame per identifier with receive-once delivery. Nodes are
+  modeled as perfect periodic senders; offline faults are injected as period 0.
+* The washer pump is a binary DIO indicator; plant-side pump pressure dynamics
+  are not modeled (the SWC's pump cap/off-guard logic is still exercised).
+* COM alive supervision uses the 1-bit alternating counter of frame 672 (per the
+  committed DBC). Rolling counters or CRC checking are out of scope.
+

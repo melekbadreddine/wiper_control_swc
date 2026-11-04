@@ -3,6 +3,8 @@
 - [Overview](overview.md)
 - [Requirements](requirements.md)
 - [Safety analysis (HARA-lite)](hara.md)
+- [Plant model](plant-model.md)
+- [BSW simulation (OS/COM/IoHwAb/DEM/NvM)](bsw-sim.md)
 - [AUTOSAR Classic vs Adaptive](classic-vs-adaptive.md)
 - [Architecture Decision Records](adr/index.md)
     - [ADR-0001 MIT license](adr/adr-0001-license.md)

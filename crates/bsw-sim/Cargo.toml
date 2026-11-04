@@ -10,6 +10,7 @@ repository.workspace = true
 [dependencies]
 wiper-swc = { path = "../wiper-swc" }
 autosar-rte = { path = "../autosar-rte" }
+plant-sim = { path = "../plant-sim" }
 
 [lints]
 workspace = true
