@@ -13,7 +13,10 @@ path = "src/main.rs"
 
 [dependencies]
 bsw-sim = { path = "../bsw-sim" }
+mcap = { version = "0.26.0", default-features = false }
 plant-sim = { path = "../plant-sim" }
+serde = { version = "1", features = ["derive"] }
+toml = "1"
 wiper-swc = { path = "../wiper-swc" }
 
 [lints]

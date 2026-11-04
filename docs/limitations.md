@@ -20,4 +20,8 @@ Kept honest and explicit — none of these are silently faked:
   are not modeled (the SWC's pump cap/off-guard logic is still exercised).
 * COM alive supervision uses the 1-bit alternating counter of frame 672 (per the
   committed DBC). Rolling counters or CRC checking are out of scope.
+* The scenario MCAP recording writes one fixed-schema JSON channel
+  (`/wiper/state`) without compression (`mcap` default features off) — record/
+  replay of Foxglove *layouts* still works, but no additional channels or
+  binary/compressed payloads are emitted (see `docs/adr/adr-0006-scenario-tooling.md`).
 

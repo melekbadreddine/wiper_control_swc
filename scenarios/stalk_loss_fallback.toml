@@ -1,0 +1,27 @@
+name = "stalk_loss_fallback"
+description = "LOW wiping; BodyCtrl goes silent at 1.5 s: COM alive supervision trips after 1 s, the function degrades to visible LOW wiping and latches InputTimeout (REQ-WIP-015)."
+duration_ms = 12000
+
+[setup]
+  ignition = "on"
+  [setup.stalk]
+  mode = "low"
+
+[[events]]
+  at_ms = 1500
+  fault = "stalk_offline"
+
+[[checks]]
+  kind = "dtc"
+  dtc = "input_timeout"
+  active = true
+  latched = true
+
+[[checks]]
+  kind = "wipe_count"
+  min = 3
+
+[[checks]]
+  kind = "wipe_rate"
+  min = 30.0
+  max = 50.0

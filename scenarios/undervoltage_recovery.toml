@@ -1,0 +1,29 @@
+name = "undervoltage_recovery"
+description = "LOW wiping; battery drops to 8.5 V at 1 s (inhibit + Undervoltage DTC), returns to 14 V at 4 s: recovery requires the 1 s debounce band (REQ-WIP-014)."
+duration_ms = 12000
+
+[setup]
+  ignition = "on"
+  [setup.stalk]
+  mode = "low"
+
+[[events]]
+  at_ms = 1000
+  battery_v = 8.5
+
+[[events]]
+  at_ms = 4000
+  battery_v = 14.0
+
+[[checks]]
+  kind = "dtc"
+  dtc = "undervoltage"
+  active = false
+  latched = true
+
+[[checks]]
+  kind = "wipe_count"
+  min = 4
+
+[[checks]]
+  kind = "no_active_dtcs"

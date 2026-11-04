@@ -10,7 +10,7 @@ milestone. Resume work from the first unchecked box.
 | ✅ | M2 AUTOSAR RTE & interfaces | autosar-rte crate + tests, port/interface defs, DBC | `m2` | 647be4e (8 tests, clippy -D warnings green) |
 | ✅ | M3 Wiper SWC logic | FSM, intermittent/park/diag logic, unit+property tests, coverage ≥90 % gate | `m3` | 19 unit + 4 prop tests; wiper-swc 94.3 % / autosar-rte 91.2 % lines (llvm-cov --fail-under-lines 90, exit 0) |
 | ✅ | M4 BSW sim + plant | bsw-sim (sched/COM/IoHwAb/DEM/NvM/Ecu), plant-sim RK4, docs/plant-model.md + docs/bsw-sim.md, 28 bsw-sim tests | `m4` | plant calibrated Kt=1.57/τ₀=3.25 (LOW 45.94, HIGH 67.99 cpm, wet +0.82, stall 193 dA, measured over real `cargo test` output); `make check` green; DBC sensitivity field encoding fixed (see PROGRESS decisions) |
-| ☐ | M5 Closed loop + scenarios | scenario-runner CLI, scenarios, fault injection, CSV/MCAP, golden tests | `m5` | |
+| ✅ | M5 Closed loop + scenarios | scenario-runner CLI, 6 TOML scenarios, fault injection, CSV/MCAP output, golden CSV tests, 1 ms WCE test | `m5` | all 6 scenarios pass their checks (`all_scenarios_pass_their_checks`); baselines byte-identical to `tests/golden/` (REQ-WIP-019); worst `Ecu::tick()` < 1 ms over 1000 ticks (REQ-WIP-020); `make check` 74 tests/0 failed; ADR-0006 (toml/serde + mcap 0.26, no criterion, hand-rolled CLI) |
 | ☐ | M6 ARXML gen & validation | arxml-gen, ARXML 4.x model, consistency tests vs Rust code | `m6` | |
 | ☐ | M7 ROS 2 integration | msg/srv, nodes (r2r), launch/mapping doc, launch tests | `m7` | |
 | ☐ | M8 URDF + Foxglove | xacro car, joint_states, rain markers, bridge, layout, record/replay | `m8` | |
@@ -49,6 +49,18 @@ milestone. Resume work from the first unchecked box.
   `read()` for display consumers.
 - **NvM scope (M4):** RAM-mirror job-queue block (`dtc_latched_bits`,
   `wipe_count`); no power-cycle persistence — recorded in `docs/limitations.md`.
+- **Scenario tooling (M5, ADR-0006):** `serde` + `toml` v1 for scenario files
+  (map sections `deny_unknown_fields`; internally tagged `checks` enum cannot
+  use it per serde), official `mcap` v0.26 with `default-features = false`
+  (JSON payloads, `/wiper/state` channel), **no criterion** — the REQ-WIP-020
+  WCE gate is `run10ms_worst_case_under_1ms` (`Instant` worst case over 1000
+  ticks, runs under plain `cargo test`), CLI flags hand-rolled like the other
+  workspace tools. `WipeGapAfter` measures the gap between the first two
+  completions that both end at ≥ `after_ms` (a mid-sweep rain drop ends its
+  sweep before pausing; the pause is measured between completions on both
+  sides of the pause).
+- **No `serde_json` (M5):** the MCAP payload is hand-serialized flat JSON —
+  one dependency fewer; the row is a fixed schema, Foxglove renders raw JSON.
 
 ## Session journal
 
@@ -61,3 +73,11 @@ milestone. Resume work from the first unchecked box.
   wash sequence, status frame via `make check`-verified suite). docs: plant-model.md,
   bsw-sim.md, requirements/traceability/limitations updated; DBC sensitivity
   encoding fixed (offset encoding, see decisions). Tagged `m4`.
+- 2026-11-04 — M5 completed: scenario-runner implemented (runner that applies
+  setup/events onto bsw-sim `Ecu`, CSV + MCAP output via hand-serialized JSON
+  payloads, check evaluation incl. `WipeGapAfter`); 6 scenarios shipped and
+  passing (baselines REQ-003/004, auto-rain 007, stalk-loss fallback 015,
+  undervoltage recovery 014, blocked-linkage latch 012); golden CSVs for the
+  two baselines committed; 6 acceptance tests (parse/golden/determinism/
+  checks/CSV-shape/1 ms WCE) — `make check` 74/0; traceability 19 verified /
+  0 missing; ADR-0006 written. Tagged `m5`.

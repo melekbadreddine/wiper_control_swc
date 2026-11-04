@@ -1,0 +1,30 @@
+name = "int_auto_rain"
+description = "INT S2 with auto flag and heavy rain first: continuous wiping (REQ-WIP-007); rain fades below threshold at 12 s: manual S2 pause resumes (REQ-WIP-005)."
+duration_ms = 20000
+
+[setup]
+  ignition = "on"
+  [setup.stalk]
+  mode = "int"
+  sensitivity = 2
+  auto = true
+  [setup.rain]
+  pct = 80
+
+[[events]]
+  at_ms = 12000
+  [events.rain]
+  pct = 20
+
+[[checks]]
+  kind = "wipe_count"
+  min = 8
+
+[[checks]]
+  kind = "wipe_gap_after"
+  after_ms = 12000
+  min = 5500
+  max = 7500
+
+[[checks]]
+  kind = "no_active_dtcs"

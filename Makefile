@@ -58,8 +58,10 @@ sim: ## Run headless closed-loop scenarios (needs release build first)
 	$(RUNNER) ./target/release/scenario-runner --scenario-dir scenarios --out report/
 
 .PHONY: record
-record: ## Record MCAP logs from scenarios
-	$(RUNNER) ./target/release/scenario-runner --scenario-dir scenarios --out report/ --mcap
+record: ## Record MCAP + CSV logs from all scenarios
+	$(CARGO) build --release -p scenario-runner
+	$(RUNNER) ./target/release/scenario-runner --scenario-dir scenarios --out report/ --list
+	$(RUNNER) ./target/release/scenario-runner --scenario-dir scenarios --out report/
 
 .PHONY: replay
 replay: ## Replay MCAP logs in Foxglove (instructions only; open report/*.mcap in Foxglove)

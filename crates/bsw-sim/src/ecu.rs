@@ -221,6 +221,14 @@ impl CanBus {
         let slot = self.slots.get_mut(idx)?;
         slot.take()
     }
+
+    /// Drop every frame from the bus (total network outage fault injection:
+    /// receivers stop seeing *any* frame until nodes transmit again).
+    pub fn clear(&mut self) {
+        for slot in &mut self.slots {
+            *slot = None;
+        }
+    }
 }
 
 /// One complete, deterministically scheduled wiper ECU (application + BSW).
@@ -349,6 +357,11 @@ impl Ecu {
     /// The physical plant (fault injection, scenario hooks of M5).
     pub fn plant_mut(&mut self) -> &mut WiperPlant {
         &mut self.plant
+    }
+
+    /// The virtual CAN bus (mutations for testing/scenario fault injection).
+    pub fn bus_mut(&mut self) -> &mut CanBus {
+        &mut self.bus
     }
 
     /// Simulated CAN bus.
